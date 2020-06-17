@@ -1,9 +1,12 @@
 package pl.devzyra.todospring.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "tasks")
@@ -15,6 +18,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Please enter description")
     @Column(name = "desc")
     private String description;
     private Boolean done;
