@@ -22,4 +22,6 @@ public interface TaskService {
 
     Boolean existsById(Long id);
 
+    void deleteById(Long id);
+
 }

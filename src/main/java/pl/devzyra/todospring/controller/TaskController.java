@@ -4,6 +4,7 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.devzyra.todospring.model.Task;
@@ -60,5 +61,12 @@ public class TaskController {
      task.setId(id);
      taskService.save(task);
      return ResponseEntity.noContent().build();
+    }
+
+    // Just an example of previous spring version mappings <4.3 & Response status
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long id){
+        taskService.deleteById(id);
     }
 }

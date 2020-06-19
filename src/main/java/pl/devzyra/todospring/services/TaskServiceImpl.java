@@ -55,4 +55,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.existsById(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        taskRepository.deleteById(id);
+        log.warn("Task has been deleted");
+    }
+
 }

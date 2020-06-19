@@ -10,7 +10,7 @@ import pl.devzyra.todospring.model.Task;
 
 import java.util.List;
 
-@Repository // RestResource
+@Repository // @RepositoryRestResource
 public interface TaskRepository extends JpaRepository<Task,Long> {
 
 
