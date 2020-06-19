@@ -19,7 +19,7 @@ public class Task {
     private Long id;
 
     @NotBlank(message = "Please enter description")
-    @Column(name = "desc")
+ //   @Column(name = "desc")  <- TO REMBER : can cause jpa mapping error with flyway schema creation
     private String description;
     private Boolean done;
 }
