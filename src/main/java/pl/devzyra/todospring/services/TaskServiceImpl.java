@@ -45,10 +45,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
-    @Override
+  /*  @Override
     public List<Task> findByDone(Boolean done) {
         return taskRepository.findByDone(done);
-    }
+    }*/
 
     @Override
     public Boolean existsById(Long id) {

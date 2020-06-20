@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.services.TaskService;
@@ -53,14 +54,27 @@ public class TaskController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
+    @Transactional
     @PutMapping("/tasks/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody @Valid Task task){
      if(!taskService.existsById(id)){
          return ResponseEntity.notFound().build();
      }
-     task.setId(id);
-     taskService.save(task);
+     Task toUpdate = taskService.findById(id);
+     toUpdate.updateFrom(task);
+     taskService.save(toUpdate);
      return ResponseEntity.noContent().build();
+    }
+
+    @Transactional
+    @PatchMapping("/tasks/{id}")
+    public ResponseEntity<?> toggleDone(@PathVariable Long id){
+        if(!taskService.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+       Task task = taskService.findById(id);
+        task.setDone(!task.getDone());
+        return ResponseEntity.noContent().build();
     }
 
     // Just an example of previous spring version mappings <4.3 & Response status
