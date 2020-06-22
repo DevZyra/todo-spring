@@ -22,6 +22,10 @@ public interface TaskService {
 
     Boolean existsById(Long id);
 
+    boolean existsByDoneIsFalseAndGroup_Id(Long groupId);
+
     void deleteById(Long id);
+
+
 
 }

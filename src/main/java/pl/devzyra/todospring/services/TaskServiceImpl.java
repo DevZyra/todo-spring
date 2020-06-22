@@ -56,6 +56,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public boolean existsByDoneIsFalseAndGroup_Id(Long groupId) {
+      return taskRepository.existsByDoneIsFalseAndGroup_Id(groupId);
+    }
+
+    @Override
     public void deleteById(Long id) {
         taskRepository.deleteById(id);
         log.warn("Task has been deleted");

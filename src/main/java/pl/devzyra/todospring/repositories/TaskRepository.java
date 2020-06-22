@@ -35,4 +35,9 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @Override
     @Query(nativeQuery = true,value = "select * from tasks where id=:id")
     Optional<Task> findById(@Param("id") Long id);
+
+
+    boolean existsByDoneIsFalseAndGroup_Id(Long groupId);
+
+
 }

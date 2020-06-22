@@ -19,25 +19,24 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Please enter description")
+    @NotBlank(message = "Please enter task description")
  //   @Column(name = "desc")  <- TO REMBER : can cause jpa mapping error with flyway schema creation
     private String description;
     private Boolean done;
     private LocalDateTime deadline;
-    private LocalDateTime createdOn;
-    private LocalDateTime updatedOn;
+
+    @Embedded
+    private Audit audit = new Audit();
+
+    @ManyToOne
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup group;
 
 
-    // Private getters to hide from user
+    // priv getter
+     private Audit getAudit() { return audit; }
 
-    private LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    private LocalDateTime getUpdatedOn() {
-        return updatedOn;
-    }
-
+    // priv setter
     private void setId(Long id) {
         this.id = id;
     }
@@ -46,15 +45,8 @@ public class Task {
         description = source.description;
         done = source.done;
         deadline = source.deadline;
+        group = source.group;
     }
 
-    @PrePersist
-    void prePersist(){
-        createdOn = LocalDateTime.now();
-    }
-    @PreUpdate
-    void preMerge(){
-        updatedOn = LocalDateTime.now();
-    }
 
 }
