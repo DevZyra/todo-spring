@@ -33,6 +33,11 @@ public class Task {
     private TaskGroup group;
 
 
+    public Task(String description,LocalDateTime deadline) {
+        this.description= description;
+        this.deadline=deadline;
+    }
+
     // priv getter
      private Audit getAudit() { return audit; }
 
