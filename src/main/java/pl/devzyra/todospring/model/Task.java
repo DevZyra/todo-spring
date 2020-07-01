@@ -1,5 +1,7 @@
 package pl.devzyra.todospring.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
@@ -32,10 +36,18 @@ public class Task {
     @JoinColumn(name = "task_group_id")
     private TaskGroup group;
 
+    public Task(String description,LocalDateTime deadline, TaskGroup group){
+    this.description = description;
+    this.deadline = deadline;
+    if(group != null){
+        this.group = group;
+    }
+    }
 
+
+    @Builder
     public Task(String description,LocalDateTime deadline) {
-        this.description= description;
-        this.deadline=deadline;
+        this(description,deadline,null);
     }
 
     // priv getter

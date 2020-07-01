@@ -1,8 +1,12 @@
 package pl.devzyra.todospring.services;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pl.devzyra.todospring.config.TaskConfigProperties;
 import pl.devzyra.todospring.repositories.ProjectRepository;
@@ -19,8 +23,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceImplTest {
 
+    @Mock
+    TaskGroupService taskGroupService;
 
-
+    @BeforeEach
+    void setUp(){
+        MockitoAnnotations.initMocks(this);
+    }
 
 
     @Test
@@ -33,7 +42,7 @@ class ProjectServiceImplTest {
         // and
         TaskConfigProperties mockConfig = configurationReturning(false);
         // under test
-        var toTest = new ProjectServiceImpl(null,mockTaskGroup,mockConfig);
+        var toTest = new ProjectServiceImpl(null,mockTaskGroup, taskGroupService, mockConfig);
 
         // when + then
 
@@ -63,7 +72,7 @@ class ProjectServiceImplTest {
         // and
         TaskConfigProperties mockConfig = configurationReturning(true);
         // under test
-        var toTest = new ProjectServiceImpl(mockProjectRepository,null,mockConfig);
+        var toTest = new ProjectServiceImpl(mockProjectRepository,null, taskGroupService, mockConfig);
 
         // when
         var exception = catchThrowable(()-> toTest.createGroup(LocalDateTime.now(),1L));
@@ -72,7 +81,6 @@ class ProjectServiceImplTest {
                 .hasMessageContaining("given id not found");
     }
 
-  
 
 
     private TaskConfigProperties configurationReturning(boolean b) {

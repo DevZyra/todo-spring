@@ -68,5 +68,6 @@ public class TaskGroupServiceImpl implements TaskGroupService {
         }
       TaskGroup result = taskGroupRepository.findById(groupId).orElseThrow(()->new IllegalArgumentException("TaskGroup does not exist."));
         result.setDone(!result.getDone());
+        taskGroupRepository.save(result);
     }
 }

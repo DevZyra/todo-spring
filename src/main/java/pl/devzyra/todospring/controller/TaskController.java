@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.services.TaskService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/tasks")
 public class TaskController {
 
 
@@ -26,7 +28,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<Task> getTask(@PathVariable Long id){
         Task task = taskService.findById(id);
         if(task == null){
@@ -36,26 +38,26 @@ public class TaskController {
         }
     }
 
-    @GetMapping(value = "/tasks", params = {"!sort","!page","!size"})
+    @GetMapping(params = {"!sort","!page","!size"})
     public ResponseEntity<List<Task>> readAllTasks(){
         log.debug("Exposing all tasks");
         return ResponseEntity.ok(taskService.findAll());
     }
 
-    @GetMapping(value = "/tasks")
+    @GetMapping
     public ResponseEntity<List<Task>> readAllTasks(Pageable pageable){
         log.debug("Pageable controller method");
         return ResponseEntity.ok(taskService.findAll(pageable).getContent());
     }
 
-    @PostMapping("/tasks")
+    @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody @Valid Task task){
         Task result = taskService.save(task);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @Transactional
-    @PutMapping("/tasks/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody @Valid Task task){
      if(!taskService.existsById(id)){
          return ResponseEntity.notFound().build();
@@ -67,7 +69,7 @@ public class TaskController {
     }
 
     @Transactional
-    @PatchMapping("/tasks/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> toggleDone(@PathVariable Long id){
         if(!taskService.existsById(id)){
             return ResponseEntity.notFound().build();
@@ -78,9 +80,14 @@ public class TaskController {
     }
 
     // Just an example of previous spring version mappings <4.3 & Response status
-    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id){
         taskService.deleteById(id);
+    }
+
+    @GetMapping("/search/done")
+    ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") Boolean state){
+        return new ResponseEntity<>(taskService.findByDone(state),HttpStatus.OK);
     }
 }
