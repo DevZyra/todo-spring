@@ -30,9 +30,6 @@ class TaskControllerE2ETest {
     void httpGet_readTasks(){
 
             // given
-        taskRepo.save(Task.builder().description("Lombok builder is").deadline(LocalDateTime.now()).build());
-        taskRepo.save(Task.builder().description("Very f... usefull").deadline(LocalDateTime.now()).build());
-
             // when
 
            Task[] res = testRestTemplate.getForObject("http://localhost:"+ port + "/tasks",Task[].class);

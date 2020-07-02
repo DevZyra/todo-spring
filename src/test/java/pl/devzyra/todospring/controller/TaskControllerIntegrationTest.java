@@ -11,6 +11,7 @@ import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.repositories.TaskRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,10 +30,10 @@ class TaskControllerIntegrationTest {
     @Test
     void httpGet_readOneTask() throws Exception {
 
-        Long id = taskRep.save(new Task("whatever",LocalDateTime.now())).getId();
+            List<Task> taskList = taskRep.findAll();
+            Long id = taskList.get(0).getId();
 
-
-        mockMvc.perform(get("/tasks/"+ id)).andExpect(status().isOk());
+            mockMvc.perform(get("/tasks/"+ id)).andExpect(status().isOk());
 
 
     }

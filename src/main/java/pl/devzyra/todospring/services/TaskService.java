@@ -18,7 +18,7 @@ public interface TaskService {
 
     Task save(Task task);
 
-    List<Task> findByDone(@Param("state") Boolean done);
+    List<Task> findByDone(Boolean done);
 
     Boolean existsById(Long id);
 

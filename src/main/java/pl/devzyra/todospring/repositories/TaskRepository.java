@@ -25,8 +25,8 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     @RestResource(exported = false)
     void delete(Task task);
 */
-    @RestResource(path = "done", rel = "done")
-    List<Task> findByDone(@Param("state") Boolean done);
+   // @RestResource(path = "done", rel = "done")
+    List<Task> findByDone(/*@Param("state") */Boolean done);
 
     @Override
     @Query(nativeQuery = true,value = "select count(*) > 0 from tasks where id=?1")

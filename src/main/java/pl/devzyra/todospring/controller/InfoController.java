@@ -2,11 +2,13 @@ package pl.devzyra.todospring.controller;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.devzyra.todospring.config.TaskConfigProperties;
 
 
 @RestController
+@RequestMapping("/info")
 public class InfoController {
 
 
@@ -18,12 +20,12 @@ public class InfoController {
         this.taskConfigProperties = taskConfigProperties;
     }
 
-    @GetMapping("/info/url")
+    @GetMapping("/url")
     String url(){
         return dataSourceProperties.getUrl();
     }
 
-    @GetMapping("/info/prop")
+    @GetMapping("/prop")
     Boolean myProp(){
         return taskConfigProperties.getTemplate().getAllowMultipleTasks();
     }
