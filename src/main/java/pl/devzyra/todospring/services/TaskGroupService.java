@@ -1,6 +1,7 @@
 package pl.devzyra.todospring.services;
 
 
+import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.model.TaskGroup;
 import pl.devzyra.todospring.model.projection.GroupReadModel;
 import pl.devzyra.todospring.model.projection.GroupWriteModel;
@@ -23,4 +24,6 @@ interface TaskGroupService {
     List<GroupReadModel> readAll();
 
     void toggleGroup(Long groupId);
+
+    List<Task> findAllByGroup_Id(Long groupId);
 }

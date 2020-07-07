@@ -27,4 +27,6 @@ public class GroupReadModel {
                 .ifPresent(date -> deadline = date);
         tasks = source.getTasks().stream().map(GroupTaskReadModel::new).collect(Collectors.toSet());
     }
+
+
 }

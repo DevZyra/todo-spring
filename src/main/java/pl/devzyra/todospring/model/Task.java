@@ -23,9 +23,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Please enter task description")
+
  //   @Column(name = "desc")  <- TO REMBER : can cause jpa mapping error with flyway schema creation
+    @NotBlank(message = "Please enter task description")
     private String description;
+
     private Boolean done;
     private LocalDateTime deadline;
 

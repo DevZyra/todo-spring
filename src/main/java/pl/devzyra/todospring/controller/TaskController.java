@@ -86,7 +86,7 @@ public class TaskController {
         taskService.deleteById(id);
     }
 
-    @GetMapping("/search/done")
+    @GetMapping("/search/done")           // if not passing @ReqPar(name = " ") then var name is def.
     ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") Boolean state){
         return new ResponseEntity<>(taskService.findByDone(state),HttpStatus.OK);
     }

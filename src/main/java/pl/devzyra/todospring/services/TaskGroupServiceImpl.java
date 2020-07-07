@@ -2,6 +2,7 @@ package pl.devzyra.todospring.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.model.TaskGroup;
 import pl.devzyra.todospring.model.projection.GroupReadModel;
 import pl.devzyra.todospring.model.projection.GroupWriteModel;
@@ -69,5 +70,10 @@ public class TaskGroupServiceImpl implements TaskGroupService {
       TaskGroup result = taskGroupRepository.findById(groupId).orElseThrow(()->new IllegalArgumentException("TaskGroup does not exist."));
         result.setDone(!result.getDone());
         taskGroupRepository.save(result);
+    }
+
+    @Override
+    public List<Task> findAllByGroup_Id(Long groupId) {
+        return taskRepository.findAllByGroup_Id(groupId);
     }
 }
