@@ -75,7 +75,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
        Task task = taskService.findById(id);
-        task.setDone(!task.getDone());
+        task.setDone(!task.isDone());
         return ResponseEntity.noContent().build();
     }
 

@@ -52,7 +52,7 @@ public class TaskGroupServiceImpl implements TaskGroupService {
     }
 
     @Override
-    public GroupReadModel createGroup(GroupWriteModel source) {
+    public GroupReadModel createGroup(final GroupWriteModel source) {
        TaskGroup tg = taskGroupRepository.save(source.toGroup());
        return new GroupReadModel(tg);
     }
@@ -76,4 +76,5 @@ public class TaskGroupServiceImpl implements TaskGroupService {
     public List<Task> findAllByGroup_Id(Long groupId) {
         return taskRepository.findAllByGroup_Id(groupId);
     }
+
 }

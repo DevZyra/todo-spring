@@ -14,7 +14,7 @@ public interface TaskGroupRepository extends JpaRepository<TaskGroup,Long> {
 
     // HQL -> Hibernate query language, prevents from N+1 selects on DB
     @Override
-    @Query("from TaskGroup g join fetch g.tasks")
+    @Query("select distinct g from TaskGroup g join fetch g.tasks")  // previous "from TaskGroup g join fetch g.tasks"
     List<TaskGroup> findAll();
 
 
