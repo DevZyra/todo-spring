@@ -2,6 +2,7 @@ package pl.devzyra.todospring.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.devzyra.todospring.model.Project;
 import pl.devzyra.todospring.model.Task;
 import pl.devzyra.todospring.model.TaskGroup;
 import pl.devzyra.todospring.model.projection.GroupReadModel;
@@ -53,8 +54,13 @@ public class TaskGroupServiceImpl implements TaskGroupService {
 
     @Override
     public GroupReadModel createGroup(final GroupWriteModel source) {
-       TaskGroup tg = taskGroupRepository.save(source.toGroup());
-       return new GroupReadModel(tg);
+       return createGroup(source,null);
+    }
+
+    @Override
+    public GroupReadModel createGroup(GroupWriteModel source, Project project) {
+        TaskGroup tg = taskGroupRepository.save(source.toGroup(project));
+        return new GroupReadModel(tg);
     }
 
     @Override
@@ -64,11 +70,12 @@ public class TaskGroupServiceImpl implements TaskGroupService {
 
     @Override
     public void toggleGroup(Long groupId) {
-        if(taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)){
-            throw new IllegalStateException("Cannot close group : Must complete tasks first.");
+        if (taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)) {
+            throw new IllegalStateException("Group has undone tasks. Done all the tasks first");
         }
-      TaskGroup result = taskGroupRepository.findById(groupId).orElseThrow(()->new IllegalArgumentException("TaskGroup does not exist."));
-        result.setDone(!result.getDone());
+        TaskGroup result = taskGroupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
+        result.setDone(!result.isDone());
         taskGroupRepository.save(result);
     }
 
@@ -76,5 +83,7 @@ public class TaskGroupServiceImpl implements TaskGroupService {
     public List<Task> findAllByGroup_Id(Long groupId) {
         return taskRepository.findAllByGroup_Id(groupId);
     }
+
+
 
 }

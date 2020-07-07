@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Boolean existsById(Long id) {
+    public boolean existsById(Long id) {
         return taskRepository.existsById(id);
     }
 

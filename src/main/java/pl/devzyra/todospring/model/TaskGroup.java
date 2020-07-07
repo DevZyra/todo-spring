@@ -12,31 +12,61 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-@Getter
-@Setter
 @Entity
 @Table(name = "task_groups")
 public class TaskGroup {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Please enter task group description")
-    //   @Column(name = "desc")  <- TO REMBER : can cause jpa mapping error with flyway schema creation
+    @NotBlank(message = "Task group's description must not be empty")
     private String description;
-    private Boolean done;
-
-    public TaskGroup() {
-    }
-
-    // Hibernate has its own implem. of the list that doesnt persist insertion order:? so set might be better opt.
-    // With lazy fetch type , Hibernate imports tasks when getter is called at
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "group")
+    private boolean done;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private Set<Task> tasks;
-
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
+    public TaskGroup() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(final boolean done) {
+        this.done = done;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(final Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(final Project project) {
+        this.project = project;
+    }
 }

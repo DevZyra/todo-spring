@@ -20,7 +20,7 @@ public interface TaskService {
 
     List<Task> findByDone(Boolean done);
 
-    Boolean existsById(Long id);
+    boolean existsById(Long id);
 
     boolean existsByDoneIsFalseAndGroup_Id(Long groupId);
 

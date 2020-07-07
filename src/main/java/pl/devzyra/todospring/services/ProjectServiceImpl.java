@@ -9,6 +9,7 @@ import pl.devzyra.todospring.model.TaskGroup;
 import pl.devzyra.todospring.model.projection.GroupReadModel;
 import pl.devzyra.todospring.model.projection.GroupTaskWriteModel;
 import pl.devzyra.todospring.model.projection.GroupWriteModel;
+import pl.devzyra.todospring.model.projection.ProjectWriteModel;
 import pl.devzyra.todospring.repositories.ProjectRepository;
 import pl.devzyra.todospring.repositories.TaskGroupRepository;
 
@@ -51,8 +52,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project save(Project projectEntity) {
-        return projectRepository.save(projectEntity);
+    public Project save(ProjectWriteModel projectEntity) {
+        return projectRepository.save(projectEntity.toProject());
     }
 
     // Im not a fan of how this method is implemented within the course although this is only demonstrational purpose
@@ -77,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
                                     return task;
                                     }
                                     ).collect(Collectors.toSet()));
-                    return taskGroupService.createGroup(targetGroup);
+                    return taskGroupService.createGroup(targetGroup, project);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
     }
 

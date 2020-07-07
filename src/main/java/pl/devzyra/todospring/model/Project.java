@@ -26,23 +26,35 @@ public class Project {
     private Set<ProjectStep> steps;
 
 
+    public Long getId() {
+        return id;
+    }
 
-
-
-
-    private void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
-    private void setDescription(String description) {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    private Set<TaskGroup> getGroups() {
+    Set<TaskGroup> getGroups() {
         return groups;
     }
 
-    private void setGroups(Set<TaskGroup> groups) {
+    void setGroups(Set<TaskGroup> groups) {
         this.groups = groups;
+    }
+
+    public Set<ProjectStep> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(Set<ProjectStep> steps) {
+        this.steps = steps;
     }
 }
