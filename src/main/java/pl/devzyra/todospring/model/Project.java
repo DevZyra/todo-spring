@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @NoArgsConstructor
-@Data
 @Entity
 @Table(name = "projects")
 public class Project {
