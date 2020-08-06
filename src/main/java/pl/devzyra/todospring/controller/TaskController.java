@@ -1,17 +1,17 @@
 package pl.devzyra.todospring.controller;
 
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.devzyra.todospring.model.Task;
+import pl.devzyra.todospring.repositories.TaskRepository;
 import pl.devzyra.todospring.services.TaskService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -23,9 +23,13 @@ public class TaskController {
 
 
     private final TaskService taskService;
+    private final TaskRepository taskRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, TaskRepository taskRepository, ApplicationEventPublisher eventPublisher) {
         this.taskService = taskService;
+        this.taskRepository = taskRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping("/{id}")
@@ -74,8 +78,8 @@ public class TaskController {
         if(!taskService.existsById(id)){
             return ResponseEntity.notFound().build();
         }
-       Task task = taskService.findById(id);
-        task.setDone(!task.isDone());
+      taskRepository.findById(id).map(Task::toggle)
+              .ifPresent(eventPublisher::publishEvent);
         return ResponseEntity.noContent().build();
     }
 
